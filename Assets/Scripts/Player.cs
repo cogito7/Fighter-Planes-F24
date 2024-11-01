@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 
         //clamp player to bottom half of screen 
         float clampedY = Mathf.Clamp(transform.position.y, -8f, minY);
-        transform.position = new Vector3(transform.position.x, clampedY, 0);
+        transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
 
 
  
