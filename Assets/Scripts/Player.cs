@@ -11,9 +11,11 @@ public class Player : MonoBehaviour
     //4. optional: give it an initial value
 
     public float horizontalInput;
-    public float verticalInput;
+    private float verticalInput;
     private float speed;
     private int lives;
+    public float minY;
+
 
     public GameObject bullet;
 
@@ -22,7 +24,7 @@ public class Player : MonoBehaviour
     {
         speed = 6f;
         lives = 3;
-    //transform.position = new Vector3(Random.Range(0, 9), Random.Range(0, 9), Random.Range(0, 9));
+        //transform.position = new Vector3(Random.Range(0, 9), Random.Range(0, 9), Random.Range(0, 9));
     }
 
     // Update is called once per frame
@@ -43,12 +45,19 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x * -1, transform.position.y, 0);
         }
-
-        //if my y position is bigger than __ than I am outside the screen 
         if (transform.position.y > 8f || transform.position.y <= -8f)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0);
         }
+
+
+        //clamp player to bottom half of screen 
+        float clampedY = Mathf.Clamp(transform.position.y, -8f, minY);
+        transform.position = new Vector3(transform.position.x, clampedY, 0);
+
+
+ 
+
     }
 
     void Shooting()
@@ -57,7 +66,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //create a bullet object at my position with my rotation
-            Instantiate(bullet, transform.position + new Vector3(0, 1, 0), Quaternion.identity); 
+            Instantiate(bullet, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         }
     }
 
