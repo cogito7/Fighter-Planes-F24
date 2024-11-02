@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void CreateEnemy()
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         Instantiate(enemy2, new Vector3(Random.Range(-9f, 0f), 8f, transform.position.z), Quaternion.identity);
     }
 
-        void CreateEnemy3()
+    void CreateEnemy3()
     {
         Instantiate(enemy3, new Vector3(9f, Random.Range(-6f, 1f), transform.position.z), Quaternion.identity);
     }

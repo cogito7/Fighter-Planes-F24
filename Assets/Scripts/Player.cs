@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     {
         speed = 6f;
         lives = 3;
-        //transform.position = new Vector3(Random.Range(0, 9), Random.Range(0, 9), Random.Range(0, 9));
+
     }
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * Time.deltaTime * speed);
 
-        //if my x position is bigger than 11.5f than I am outside the screen from the right 
+        //if my x position is bigger than 11.5f then I am outside the screen from the right 
         if (transform.position.x > 11.5f || transform.position.x <= -11.5f)
         {
             transform.position = new Vector3(transform.position.x * -1, transform.position.y, transform.position.z);
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
 
 
- 
+
 
     }
 
