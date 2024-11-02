@@ -248,6 +248,7 @@ MonoBehaviour:
   player: {fileID: 8535017827917127617, guid: 2ed714d4b68ffc94ebf8ddaa9e7d565d, type: 3}
   enemy: {fileID: 2435165605461576226, guid: 3fcd728be90940d4ba14f8ae7a6b7a89, type: 3}
   enemy2: {fileID: 5579634695129902737, guid: e8501e447b570ff4a816e6e3995b9a67, type: 3}
+  enemy3: {fileID: 5898232736162949380, guid: 6a537601bcf8b38419d8cd07bde2bb64, type: 3}
 --- !u!4 &1581147651
 Transform:
   m_ObjectHideFlags: 0
