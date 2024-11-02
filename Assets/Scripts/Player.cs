@@ -43,11 +43,11 @@ public class Player : MonoBehaviour
         //if my x position is bigger than 11.5f than I am outside the screen from the right 
         if (transform.position.x > 11.5f || transform.position.x <= -11.5f)
         {
-            transform.position = new Vector3(transform.position.x * -1, transform.position.y, 0);
+            transform.position = new Vector3(transform.position.x * -1, transform.position.y, transform.position.z);
         }
         if (transform.position.y > 8f || transform.position.y <= -8f)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0);
+            transform.position = new Vector3(transform.position.x, transform.position.y * -1, transform.position.z);
         }
 
 
