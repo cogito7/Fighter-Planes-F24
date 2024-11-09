@@ -1,0 +1,51 @@
+using UnityEngine;
+
+public class CoinManager : MonoBehaviour
+{
+    public GameObject coinPrefab; // Assign the coin prefab in the Inspector
+    public float coinLifetime = 2.0f; // Time (in seconds) the coin stays on screen
+    public float spawnInterval = 3.0f; // Time (in seconds) between spawns
+
+    private float timer;
+    private int score;
+
+    private void Start()
+    {
+        timer = 0f;
+        score = 0;
+    }
+
+    private void Update()
+    {
+        // Spawn a coin at intervals
+        timer += Time.deltaTime;
+        if (timer >= spawnInterval)
+        {
+            SpawnCoin();
+            timer = 0f;
+        }
+    }
+
+    private void SpawnCoin()
+    {
+        // Generate a random position on the screen within the game boundaries
+        float xPosition = Random.Range(-8.0f, 8.0f); // Adjust based on screen size
+        float yPosition = Random.Range(-4.0f, 4.0f); // Adjust based on screen size
+        Vector2 spawnPosition = new Vector2(xPosition, yPosition);
+
+        // Instantiate a coin at the random position
+        GameObject coin = Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
+
+        // Destroy the coin after a set lifetime if not collected
+        Destroy(coin, coinLifetime);
+
+        // Assign a function to detect when the player collects the coin
+        coin.GetComponent<Coin>().OnCollected += IncreaseScore;
+    }
+
+    private void IncreaseScore()
+    {
+        score += 1;
+        Debug.Log("Score: " + score);
+    }
+}
