@@ -29,4 +29,5 @@ public class Enemy2 : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
 }
