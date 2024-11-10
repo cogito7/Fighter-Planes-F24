@@ -7,28 +7,32 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
 
-    public GameObject player;
+    public Player player;
     public GameObject enemy;
     public GameObject enemy2;
     public GameObject enemy3;
     private int score;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI livesText;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(player, transform.position, Quaternion.identity);
+        //update the player
+        player = Instantiate(player, transform.position, Quaternion.identity);
         InvokeRepeating("CreateEnemy", 1f, 3f);
         InvokeRepeating("CreateEnemy2", 3f, 5f);
         InvokeRepeating("CreateEnemy3", 5f, 2f);
         score = 0;
         scoreText.text = "Score: " + score;
+        livesText.text = "Lives: " + player.lives;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //update lives text
+        livesText.text = "Lives: " + player.lives;
     }
 
     void CreateEnemy()
