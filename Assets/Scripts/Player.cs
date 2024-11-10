@@ -69,5 +69,11 @@ public class Player : MonoBehaviour
             Instantiate(bullet, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         }
     }
+    public void LoseALife()
+    {
+        lives--;
+        if (lives == 0)
+            Destroy(this.gameObject);
+    }
 
 }
