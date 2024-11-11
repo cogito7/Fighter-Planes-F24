@@ -62,4 +62,5 @@ public class GameManager : MonoBehaviour
         Vector3 scale = coin.transform.localScale;
         Instantiate(coin, new Vector3(Random.Range(-boundsCoin.x - scale.x, boundsCoin.x + scale.x), Random.Range(-scale.y, boundsCoin.y + scale.y), transform.position.z), Quaternion.identity);
     }
+
 }

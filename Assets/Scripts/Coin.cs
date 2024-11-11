@@ -15,4 +15,14 @@ public class Coin : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter(Collider hitRate)
+    {
+        //player gains life when touching health pickup
+        if (hitRate.tag == "Player")
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().EarnScore(1);
+            Destroy(this.gameObject);
+        }
+    }
 }
