@@ -32,6 +32,7 @@ public class Collision : MonoBehaviour
             Destroy(hitRate.gameObject);
             Destroy(this.gameObject);
         }
+
     }
 
 }

@@ -11,7 +11,10 @@ public class GameManager : MonoBehaviour
     public GameObject enemy;
     public GameObject enemy2;
     public GameObject enemy3;
+    public GameObject lifePickup;
+
     private int score;
+
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
 
@@ -23,6 +26,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("CreateEnemy", 1f, 3f);
         InvokeRepeating("CreateEnemy2", 3f, 5f);
         InvokeRepeating("CreateEnemy3", 5f, 2f);
+        InvokeRepeating("CreateLifePickup", 5f, 10f );
         score = 0;
         scoreText.text = "Score: " + score;
         livesText.text = "Lives: " + player.lives;
@@ -49,6 +53,12 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(enemy3, new Vector3(9f, Random.Range(-6f, 1f), transform.position.z), Quaternion.identity);
     }
+
+    void CreateLifePickup()
+    {
+        Instantiate(lifePickup, new Vector3(Random.Range(-8f, 8f), Random.Range(-6f, 1f), transform.position.z), Quaternion.identity);
+    }
+   
     public void EarnScore(int scoreCount)
     {
         score = score + scoreCount;
