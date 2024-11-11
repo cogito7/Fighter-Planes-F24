@@ -1,21 +1,18 @@
 using System.Collections;
-using system.collections.Generic
+using System.Collections. Generic;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public float lifetime = 5f; // Time the coin will stay on screen before disappearing
-    private Vector2 screenBounds; // To define the screen boundaries
+    public float lifetime = 5f; // Time before the coin disappears
+    public int scoreValue = 1; // Points awarded for collecting the coin
 
     void Start()
     {
-        // Calculate screen boundaries based on camera view
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-        
         // Set a random position within screen bounds
         transform.position = new Vector3(
-            Random.Range(-screenBounds.x, screenBounds.x),
-            Random.Range(-screenBounds.y, screenBounds.y),
+            Random.Range(-8f, 8f),  // Replace with your screen boundaries
+            Random.Range(-4f, 4f),  // Replace with your screen boundaries
             0
         );
 
@@ -25,8 +22,18 @@ public class Coin : MonoBehaviour
 
     private IEnumerator DestroyAfterTime()
     {
-        // Wait for the specified lifetime duration, then destroy the coin
         yield return new WaitForSeconds(lifetime);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Check if the player collided with the coin
+        if (other.CompareTag("Player"))
+        {
+            // Add score and destroy the coin
+            GameManager.Instance.AddScore(scoreValue);
+            Destroy(gameObject);
+        }
     }
 }
