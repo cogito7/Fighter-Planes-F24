@@ -587,6 +587,7 @@ MonoBehaviour:
   enemy3: {fileID: 5898232736162949380, guid: 6a537601bcf8b38419d8cd07bde2bb64, type: 3}
   scoreText: {fileID: 1328194191}
   livesText: {fileID: 382367243}
+  coin: {fileID: 57052015363351318, guid: 0d0d031a7e951784ba930030ccb008b8, type: 3}
 --- !u!4 &1581147651
 Transform:
   m_ObjectHideFlags: 0

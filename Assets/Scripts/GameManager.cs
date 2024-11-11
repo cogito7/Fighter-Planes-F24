@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private int score;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
+    public GameObject coin;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("CreateEnemy", 1f, 3f);
         InvokeRepeating("CreateEnemy2", 3f, 5f);
         InvokeRepeating("CreateEnemy3", 5f, 2f);
+        InvokeRepeating("CreateCoin", 0.07f, 0.06f);
         score = 0;
         scoreText.text = "Score: " + score;
         livesText.text = "Lives: " + player.lives;
@@ -53,5 +55,11 @@ public class GameManager : MonoBehaviour
     {
         score = score + scoreCount;
         scoreText.text = "Score: " + score;
+    }
+    void CreateCoin()
+    {
+        Vector2 boundsCoin= Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        Vector3 scale = coin.transform.localScale;
+        Instantiate(coin, new Vector3(Random.Range(scale.x/2, boundsCoin.x * 2 - scale.x/2), Random.Range(scale.y/2, boundsCoin.y - scale.y/2), transform.position.z), Quaternion.identity);
     }
 }
