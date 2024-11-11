@@ -1,66 +1,51 @@
+using System.Collections;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class Coin : MonoBehaviour
 {
-    // This is the coin that will appear on the screen. Drag the coin prefab here in the Inspector.
-    public GameObject coinPrefab;
-    
-    // Settings for how long the coin stays on the screen and how often new coins appear.
-    public float coinLifetime = 2.0f;
-    public float spawnInterval = 3.0f;
+    public float speed = 3f; // Speed for optional side-to-side movement
+    private float lifetime = 5f; // Time before the coin destroys itself
+    private Vector2 screenBounds; // To keep track of screen boundaries
+    private bool movingCoin = true; // Toggle for stationary or moving coin
 
-    private float timer = 0f; // Keeps track of time between spawns
-    private int score = 0;    // Keeps track of the player's score
-
-    private void Update()
+    void Start()
     {
-        // Add time to the timer each frame
-        timer += Time.deltaTime;
+        // Set a random position on the screen within the bounds
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        transform.position = new Vector3(Random.Range(-screenBounds.x, screenBounds.x), Random.Range(-screenBounds.y, screenBounds.y), 0);
 
-        // When the timer reaches the spawn interval, spawn a new coin
-        if (timer >= spawnInterval)
+        // Start coroutine to destroy coin after a few seconds if not collected
+        StartCoroutine(DestroyAfterTime());
+    }
+
+    void Update()
+    {
+        // Optional movement logic: moves the coin from left to right
+        if (movingCoin)
         {
-            SpawnCoin();
-            timer = 0f; // Reset the timer after spawning
+            transform.Translate(Vector3.right * speed * Time.deltaTime);
+
+            // Destroy the coin if it moves out of bounds
+            if (transform.position.x > screenBounds.x)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 
-    private void SpawnCoin()
+    private IEnumerator DestroyAfterTime()
     {
-        if (coinPrefab == null)
-        {
-            Debug.LogError("CoinManager: No coin prefab has been assigned in the Inspector!");
-            return;
-        }
-
-        // Pick a random position for the coin to appear on the screen
-        float xPosition = Random.Range(-8.0f, 8.0f); // Adjust these values for your screen size
-        float yPosition = Random.Range(-4.0f, 4.0f);
-        Vector2 spawnPosition = new Vector2(xPosition, yPosition);
-
-        // Create the coin at the random position
-        GameObject coin = Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
-
-        // Set the coin to disappear after a set amount of time if it's not collected
-        Destroy(coin, coinLifetime);
-
-        // Try to find the Coin script attached to this new coin instance
-        Coin coinComponent = coin.GetComponent<Coin>();
-        if (coinComponent != null)
-        {
-            // When the coin is collected, call the IncreaseScore function
-            coinComponent.OnCollected += IncreaseScore;
-        }
-        else
-        {
-            Debug.LogError("CoinManager: The coin prefab doesn't have a Coin component attached!");
-        }
+        yield return new WaitForSeconds(lifetime);
+        Destroy(this.gameObject); // Destroy coin if not picked up within lifetime
     }
 
-    private void IncreaseScore()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // Add 1 point to the player's score when a coin is collected
-        score += 1;
-        Debug.Log("Score: " + score);
+        if (other.CompareTag("Player"))
+        {
+            // Add to player score (assuming there's a ScoreManager to handle the score)
+            ScoreManager.instance.AddScore(1); // Update score by 1
+            Destroy(this.gameObject); // Destroy coin upon collection
+        }
     }
 }
