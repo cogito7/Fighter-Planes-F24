@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalInput: 0
+  lives: 0
   minY: 0
   bullet: {fileID: 265660570360472977, guid: 4dea0cfd33aea984c8f1a75c838e3848, type: 3}
 --- !u!114 &-2260314776981755337

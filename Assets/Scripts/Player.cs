@@ -86,6 +86,12 @@ public class Player : MonoBehaviour
 
     }
 
+    public void GainALife()
+    {
+        //increase life count
+        lives++;
+    }
+
 }
 
 
