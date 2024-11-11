@@ -9,7 +9,7 @@ public class LifePickup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Destroy(this.gameObject, 3f);
     }
 
     // Update is called once per frame
@@ -18,19 +18,13 @@ public class LifePickup : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter (Collider playerHit)
+    private void OnTriggerEnter (Collider hitRate)
     {
         //player gains life when touching health pickup
-        if (playerHit.tag == "Player" && player.lives < 3)
+        if (hitRate.tag == "Player")
         {
             GameObject.Find("Player(Clone)").GetComponent<Player>().GainALife();
             Destroy(this.gameObject);
-        }
-        else
-        {
-           Destroy(this.gameObject); 
-        }
-
-        
+        }      
     }
 }
