@@ -90,6 +90,11 @@ public class Player : MonoBehaviour
     {
         //increase life count
         lives++;
+
+        if (lives > 3)
+        {
+            lives--;
+        }
     }
 
 }
