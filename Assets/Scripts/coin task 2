@@ -3,49 +3,29 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public float speed = 3f; // Speed for optional side-to-side movement
-    private float lifetime = 5f; // Time before the coin destroys itself
-    private Vector2 screenBounds; // To keep track of screen boundaries
-    private bool movingCoin = true; // Toggle for stationary or moving coin
+    public float lifetime = 5f; // Time the coin will stay on screen before disappearing
+    private Vector2 screenBounds; // To define the screen boundaries
 
     void Start()
     {
-        // Set a random position on the screen within the bounds
+        // Calculate screen boundaries based on camera view
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-        transform.position = new Vector3(Random.Range(-screenBounds.x, screenBounds.x), Random.Range(-screenBounds.y, screenBounds.y), 0);
+        
+        // Set a random position within screen bounds
+        transform.position = new Vector3(
+            Random.Range(-screenBounds.x, screenBounds.x),
+            Random.Range(-screenBounds.y, screenBounds.y),
+            0
+        );
 
-        // Start coroutine to destroy coin after a few seconds if not collected
+        // Start the countdown to destroy the coin
         StartCoroutine(DestroyAfterTime());
-    }
-
-    void Update()
-    {
-        // Optional movement logic: moves the coin from left to right
-        if (movingCoin)
-        {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
-
-            // Destroy the coin if it moves out of bounds
-            if (transform.position.x > screenBounds.x)
-            {
-                Destroy(this.gameObject);
-            }
-        }
     }
 
     private IEnumerator DestroyAfterTime()
     {
+        // Wait for the specified lifetime duration, then destroy the coin
         yield return new WaitForSeconds(lifetime);
-        Destroy(this.gameObject); // Destroy coin if not picked up within lifetime
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            // Add to player score (assuming there's a ScoreManager to handle the score)
-            ScoreManager.instance.AddScore(1); // Update score by 1
-            Destroy(this.gameObject); // Destroy coin upon collection
-        }
+        Destroy(this.gameObject);
     }
 }
