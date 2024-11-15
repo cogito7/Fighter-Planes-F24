@@ -18,10 +18,8 @@ public class Player : MonoBehaviour
     private float speed;
     public int lives;
     public float minY;
-
-
-
     public GameObject bullet;
+    public GameManager gameManager;
 
     // Start is called before the first frame
     void Start()
@@ -95,6 +93,14 @@ public class Player : MonoBehaviour
         if (lives > 3)
         {
             lives--;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D poweringUp)
+    {
+        if (poweringUp.tag == "Powerup")
+        {
+            gameManager.UpdatePowerupText("Picked up SHIELD");
         }
     }
 

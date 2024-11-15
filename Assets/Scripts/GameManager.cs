@@ -12,11 +12,13 @@ public class GameManager : MonoBehaviour
     public GameObject enemy2;
     public GameObject enemy3;
     public GameObject lifePickup;
+    public GameObject powerup;
 
     private int score;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
+    public TextMeshProUGUI powerupText;
     public GameObject coin;
 
     // Start is called before the first frame update
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("CreateEnemy3", 5f, 2f);
         InvokeRepeating("CreateCoin", 5f, 4f);
         InvokeRepeating("CreateLifePickup", 5f, 10f );
+        StartCoroutine(CreatePowerup());
         score = 0;
         scoreText.text = "Score: " + score;
         livesText.text = "Lives: " + player.lives;
@@ -73,4 +76,15 @@ public class GameManager : MonoBehaviour
         Instantiate(coin, new Vector3(Random.Range(-boundsCoin.x - scale.x, boundsCoin.x + scale.x), Random.Range(-scale.y, boundsCoin.y + scale.y), transform.position.z), Quaternion.identity);
     }
 
+    IEnumerator CreatePowerup()
+    {
+        Instantiate(powerup, new Vector3(11f, Random.Range(-6f, 1f), 0), Quaternion.identity);
+        yield return new WaitForSeconds(Random.Range(2f, 5f));
+        StartCoroutine(CreatePowerup());
+    }
+
+    public void UpdatePowerupText(string text)
+    {
+        powerupText.text = text;
+    }
 }
