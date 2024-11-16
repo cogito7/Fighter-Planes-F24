@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour
     public GameObject powerup;
 
     private int score;
+    private bool isPlayerAlive;
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI restartText;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
@@ -35,6 +39,7 @@ public class GameManager : MonoBehaviour
         score = 0;
         scoreText.text = "Score: " + score;
         livesText.text = "Lives: " + player.lives;
+        isPlayerAlive = true;
     }
 
     // Update is called once per frame
@@ -42,6 +47,7 @@ public class GameManager : MonoBehaviour
     {
         //update lives text
         livesText.text = "Lives: " + player.lives;
+        Restart();
     }
 
     void CreateEnemy()
@@ -86,5 +92,22 @@ public class GameManager : MonoBehaviour
     public void UpdatePowerupText(string text)
     {
         powerupText.text = text;
+    }
+    
+    public void GameOver()
+    {
+        isPlayerAlive = false;
+        CancelInvoke();
+        gameOverText.gameObject.SetActive(true);
+        restartText.gameObject.SetActive(true);
+    }
+    void Restart()
+    {
+        if(Input.GetKeyDown(KeyCode.R) && isPlayerAlive == false)
+        {
+            //restart the game
+            SceneManager.LoadScene("Game");
+
+        }
     }
 }

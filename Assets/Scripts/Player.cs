@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     {
         speed = 6f;
         lives = 3;//start lives at 3
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
     }
 
@@ -80,6 +81,7 @@ public class Player : MonoBehaviour
         //check if lives have reached zero
         if (lives == 0)
         {
+            gameManager.GameOver();
             Destroy(this.gameObject);
         }
 
