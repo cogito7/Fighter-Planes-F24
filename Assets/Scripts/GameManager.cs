@@ -84,14 +84,14 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CreatePowerup()
     {
-        Instantiate(powerup, new Vector3(11f, Random.Range(-6f, 1f), 0), Quaternion.identity);
+        Instantiate(powerup, new Vector3(11f, Random.Range(-6f, 1f), transform.position.z), Quaternion.identity);
         yield return new WaitForSeconds(Random.Range(2f, 5f));
         StartCoroutine(CreatePowerup());
     }
 
-    public void UpdatePowerupText(string text)
+    public void UpdatePowerupText(string whichPowerUp)
     {
-        powerupText.text = text;
+        powerupText.text = whichPowerUp;
     }
     
     public void GameOver()

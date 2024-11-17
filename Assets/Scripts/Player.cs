@@ -104,10 +104,12 @@ public class Player : MonoBehaviour
         speed = 6f;
     }
 
-    private void OnTriggerEnter2D(Collider2D poweringUp)
+    private void OnTriggerEnter(Collider hitRate)
     {
-        if (poweringUp.tag == "Powerup")
+        gameManager.UpdatePowerupText("collision");
+        if (hitRate.tag == "Powerup")
         {
+            gameManager.UpdatePowerupText("powerup");
             int powerupType = Random.Range(1, 5);//int 1,2,3, or 4
             switch(powerupType)
             {
@@ -117,14 +119,17 @@ public class Player : MonoBehaviour
                     gameManager.UpdatePowerupText("Picked up Speed!");
                     StartCoroutine(SpeedPowerDown());
                     break;
+
                 case 1:
                     //double shot
                     gameManager.UpdatePowerupText("Picked up Double Shot!");
                     break;
+
                 case 2:
                     //triple shot
                     gameManager.UpdatePowerupText("Picked up Triple Shot!");
                     break;
+
                 case 3:
                     //shield
                     gameManager.UpdatePowerupText("Picked up SHIELD");
@@ -134,6 +139,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+ 
 
 }
 
