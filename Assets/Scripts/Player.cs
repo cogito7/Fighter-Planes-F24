@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Runtime.CompilerServices;
 
 public class Player : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     public float minY;
     public GameObject bullet;
     public GameManager gameManager;
+    public GameObject shield;
 
     // Start is called before the first frame
     void Start()
@@ -27,7 +29,6 @@ public class Player : MonoBehaviour
         speed = 6f;
         lives = 3;//start lives at 3
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
     }
 
     // Update is called once per frame
@@ -98,19 +99,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator SpeedPowerDown()
+    IEnumerator DisableShield()
     {
         yield return new WaitForSeconds(3f);
-        speed = 6f;
+        shield.gameObject.SetActive(false);
+        gameManager.UpdatePowerupText("");
     }
 
     private void OnTriggerEnter(Collider hitRate)
     {
-        gameManager.UpdatePowerupText("collision");
         if (hitRate.tag == "Powerup")
         {
-            gameManager.UpdatePowerupText("powerup");
-            int powerupType = Random.Range(1, 5);//int 1,2,3, or 4
+            /*int powerupType = Random.Range(1, 5);//int 1,2,3, or 4
             switch(powerupType)
             {
                 case 0:
@@ -131,12 +131,14 @@ public class Player : MonoBehaviour
                     break;
 
                 case 3:
-                    //shield
-                    gameManager.UpdatePowerupText("Picked up SHIELD");
-                    break;
+                    //shield*/
+                    gameManager.UpdatePowerupText("Picked up Shield!");
+            shield.gameObject.SetActive(true);
+            StartCoroutine(DisableShield());
+            //break;
 
-
-            }
+            Destroy(hitRate.gameObject);
+           // }
         }
     }
  
