@@ -106,31 +106,30 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider hitRate)
     {
-        gameManager.UpdatePowerupText("collision");
         if (hitRate.tag == "Powerup")
         {
             gameManager.UpdatePowerupText("powerup");
             int powerupType = Random.Range(1, 5);//int 1,2,3, or 4
             switch(powerupType)
             {
-                case 0:
+                case 1:
                     //speed powerup
                     speed = 9f;
                     gameManager.UpdatePowerupText("Picked up Speed!");
                     StartCoroutine(SpeedPowerDown());
                     break;
 
-                case 1:
+                case 2:
                     //double shot
                     gameManager.UpdatePowerupText("Picked up Double Shot!");
                     break;
 
-                case 2:
+                case 3:
                     //triple shot
                     gameManager.UpdatePowerupText("Picked up Triple Shot!");
                     break;
 
-                case 3:
+                case 4:
                     //shield
                     gameManager.UpdatePowerupText("Picked up SHIELD");
                     break;
