@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using JetBrains.Annotations;
+using System.Runtime.CompilerServices;
 
 public class Player : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
     public GameObject bullet;
     public GameManager gameManager;
     private int shooting;
+    public GameObject shield;
+    private bool hasShield;
 
     // Start is called before the first frame
     void Start()
@@ -30,7 +33,7 @@ public class Player : MonoBehaviour
         lives = 3;//start lives at 3
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         shooting = 1;
-
+        hasShield = false;
     }
 
     // Update is called once per frame
@@ -103,8 +106,19 @@ public class Player : MonoBehaviour
 
     public void LoseALife()
     {
-        //decrease lives count
-        lives--;
+        if (hasShield == false)
+        {
+            //decrease lives count
+            lives--;
+        } else if(hasShield == true)
+        {
+            //lose the shield
+            //no longer have a shield
+            shield.gameObject.SetActive(false);
+            gameManager.UpdatePowerupText("");
+            hasShield = false;
+        }
+
 
         //check if lives have reached zero
         if (lives == 0)
@@ -125,20 +139,19 @@ public class Player : MonoBehaviour
             lives--;
         }
     }
-    /*
-    IEnumerator SpeedPowerDown()
-    {
-        yield return new WaitForSeconds(3f);
-        speed = 6f;
-        gameManager.UpdatePowerupText("");
-    }
-    */
 
     IEnumerator ShootingPowerDown()
     {
         yield return new WaitForSeconds(4f);
         shooting = 1;
         gameManager.UpdatePowerupText("");
+    }
+    IEnumerator DisableShield()
+    {
+        yield return new WaitForSeconds(3f);
+        shield.gameObject.SetActive(false);
+        gameManager.UpdatePowerupText("");
+        
     }
 
     private void OnTriggerEnter(Collider hitRate)
@@ -147,10 +160,9 @@ public class Player : MonoBehaviour
         if (hitRate.tag == "Powerup")
         {
             gameManager.PlayPowerUp();
-            //gameManager.UpdatePowerupText("powerup");
-            int powerupType = Random.Range(1, 5);//int 1,2,3, or 4
+            int powerupType = Random.Range(1, 4);//int 1,2,3,
 
-            switch(powerupType)
+            switch (powerupType)
             {
 
 
@@ -167,10 +179,12 @@ public class Player : MonoBehaviour
                     gameManager.UpdatePowerupText("Picked up Triple Shot!");
                     StartCoroutine(ShootingPowerDown());
                     break;
-
                 case 3:
                     //shield
-                    gameManager.UpdatePowerupText("Picked up SHIELD");
+                    gameManager.UpdatePowerupText("Picked up Shield!");
+                    hasShield = true;
+                    shield.gameObject.SetActive(true);
+                    StartCoroutine(DisableShield());
                     break;
 
             }
