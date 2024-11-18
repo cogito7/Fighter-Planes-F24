@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Runtime.CompilerServices;
 
 public class Player : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     public float minY;
     public GameObject bullet;
     public GameManager gameManager;
+    public GameObject shield;
+    private bool hasShield;
 
     // Start is called before the first frame
     void Start()
@@ -27,7 +30,7 @@ public class Player : MonoBehaviour
         speed = 6f;
         lives = 3;//start lives at 3
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
+        hasShield = false;
     }
 
     // Update is called once per frame
@@ -75,8 +78,19 @@ public class Player : MonoBehaviour
 
     public void LoseALife()
     {
-        //decrease lives count
-        lives--;
+        if (hasShield == false)
+        {
+            //decrease lives count
+            lives--;
+        } else if(hasShield == true)
+        {
+            //lose the shield
+            //no longer have a shield
+            shield.gameObject.SetActive(false);
+            gameManager.UpdatePowerupText("");
+            hasShield = false;
+        }
+
 
         //check if lives have reached zero
         if (lives == 0)
@@ -98,16 +112,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator SpeedPowerDown()
+    IEnumerator DisableShield()
     {
         yield return new WaitForSeconds(3f);
-        speed = 6f;
+        shield.gameObject.SetActive(false);
+        gameManager.UpdatePowerupText("");
     }
 
     private void OnTriggerEnter(Collider hitRate)
     {
         if (hitRate.tag == "Powerup")
         {
+
             gameManager.UpdatePowerupText("powerup");
             int powerupType = Random.Range(1, 5);//int 1,2,3, or 4
             switch(powerupType)
@@ -131,11 +147,18 @@ public class Player : MonoBehaviour
 
                 case 4:
                     //shield
-                    gameManager.UpdatePowerupText("Picked up SHIELD");
+                    gameManager.UpdatePowerupText("Picked up Shield!");
+                    hasShield = true;
+                    shield.gameObject.SetActive(true);
+                    StartCoroutine(DisableShield());
                     break;
 
 
             }
+
+
+            Destroy(hitRate.gameObject);
+ 
         }
     }
  
