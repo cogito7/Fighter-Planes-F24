@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI powerupText;
     public GameObject coin;
+    public AudioClip powerUp;
+    public AudioClip powerDown;
 
     // Start is called before the first frame update
     void Start()
@@ -93,7 +95,15 @@ public class GameManager : MonoBehaviour
     {
         powerupText.text = whichPowerUp;
     }
+    public void PlayPowerUp()
+    {
+        AudioSource.PlayClipAtPoint(powerUp, Camera.main.transform.position);
+    }
     
+    public void PlayPowerDown()
+    {
+        AudioSource.PlayClipAtPoint(powerUp, Camera.main.transform.position);
+    }
     public void GameOver()
     {
         isPlayerAlive = false;

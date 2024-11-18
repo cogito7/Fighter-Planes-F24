@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
+
+    //public AudioSource audioSource;
+   // private SphereCollider itemCollider;
+    //private SpriteRenderer sr;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        /*
+        audioSource = GetComponent<AudioSource>();
+        itemCollider = GetComponent<SphereCollider>();
+        sr = GetComponent<SpriteRenderer>(); */
+
     }
 
     // Update is called once per frame
@@ -22,4 +31,16 @@ public class Powerup : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    /*
+    private void OnTriggerEnter(Collider hitRate)
+    {
+
+        if (hitRate.gameObject.tag == "Player")
+        {
+            audioSource.Play();
+            itemCollider.enabled = false;
+            sr.enabled = false;
+        }
+    }
+    */
 }
