@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Runtime.CompilerServices;
 
 public class Player : MonoBehaviour
 {
@@ -18,17 +19,18 @@ public class Player : MonoBehaviour
     private float speed;
     public int lives;
     public float minY;
-
-
-
     public GameObject bullet;
+    public GameManager gameManager;
+    public GameObject shield;
+    private bool hasShield;
 
     // Start is called before the first frame
     void Start()
     {
         speed = 6f;
         lives = 3;//start lives at 3
-
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        hasShield = false;
     }
 
     // Update is called once per frame
@@ -76,12 +78,24 @@ public class Player : MonoBehaviour
 
     public void LoseALife()
     {
-        //decrease lives count
-        lives--;
+        if (hasShield == false)
+        {
+            //decrease lives count
+            lives--;
+        } else if(hasShield == true)
+        {
+            //lose the shield
+            //no longer have a shield
+            shield.gameObject.SetActive(false);
+            gameManager.UpdatePowerupText("");
+            hasShield = false;
+        }
+
 
         //check if lives have reached zero
         if (lives == 0)
         {
+            gameManager.GameOver();
             Destroy(this.gameObject);
         }
 
@@ -97,6 +111,51 @@ public class Player : MonoBehaviour
             lives--;
         }
     }
+
+    IEnumerator DisableShield()
+    {
+        yield return new WaitForSeconds(3f);
+        shield.gameObject.SetActive(false);
+        gameManager.UpdatePowerupText("");
+    }
+
+    private void OnTriggerEnter(Collider hitRate)
+    {
+        if (hitRate.tag == "Powerup")
+        {
+
+
+            int powerupType = Random.Range(1, 4);//int 1,2,3,
+            switch(powerupType)
+            {
+
+                case 1:
+                    //double shot
+                    gameManager.UpdatePowerupText("Picked up Double Shot!");
+                    break;
+
+                case 2:
+                    //triple shot
+                    gameManager.UpdatePowerupText("Picked up Triple Shot!");
+                    break;
+
+                case 3:
+                    //shield
+                    gameManager.UpdatePowerupText("Picked up Shield!");
+                    hasShield = true;
+                    shield.gameObject.SetActive(true);
+                    StartCoroutine(DisableShield());
+                    break;
+
+
+            }
+
+
+            Destroy(hitRate.gameObject);
+ 
+        }
+    }
+ 
 
 }
 

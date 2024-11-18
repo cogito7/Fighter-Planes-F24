@@ -33,6 +33,7 @@ public class Collision : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+
     }
 
 }
