@@ -145,13 +145,15 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(4f);
         shooting = 1;
         gameManager.UpdatePowerupText("");
+        gameManager.PlayPowerDown();
     }
     IEnumerator DisableShield()
     {
         yield return new WaitForSeconds(3f);
         shield.gameObject.SetActive(false);
         gameManager.UpdatePowerupText("");
-        
+        gameManager.PlayPowerDown();
+
     }
 
     private void OnTriggerEnter(Collider hitRate)

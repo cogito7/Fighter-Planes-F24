@@ -99,10 +99,10 @@ public class GameManager : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(powerUp, Camera.main.transform.position);
     }
-    
+
     public void PlayPowerDown()
     {
-        AudioSource.PlayClipAtPoint(powerUp, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(powerDown, Camera.main.transform.position);
     }
     public void GameOver()
     {
