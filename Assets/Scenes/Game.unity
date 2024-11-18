@@ -862,6 +862,8 @@ MonoBehaviour:
   livesText: {fileID: 382367243}
   powerupText: {fileID: 2109378434}
   coin: {fileID: 57052015363351318, guid: 0d0d031a7e951784ba930030ccb008b8, type: 3}
+  powerUp: {fileID: 8300000, guid: 13c919e27a7550d4296eb7375a0e0e3e, type: 3}
+  powerDown: {fileID: 8300000, guid: ee0ea162d2c92124eab9abc6ee036d4b, type: 3}
 --- !u!4 &1581147651
 Transform:
   m_ObjectHideFlags: 0

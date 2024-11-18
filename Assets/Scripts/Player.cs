@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
 
 public class Player : MonoBehaviour
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     public float minY;
     public GameObject bullet;
     public GameManager gameManager;
+    private int shooting;
     public GameObject shield;
     private bool hasShield;
 
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
         speed = 6f;
         lives = 3;//start lives at 3
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        shooting = 1;
         hasShield = false;
     }
 
@@ -68,12 +71,37 @@ public class Player : MonoBehaviour
 
     void Shooting()
     {
-        //if SPACE key is pressed create a bullet; what is a bullet?
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //create a bullet object at my position with my rotation
-            Instantiate(bullet, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-        }
+            if (Input.GetKeyDown(KeyCode.Space))
+             {
+                    switch (shooting)
+                    {
+                        case 1:
+                                //if SPACE key is pressed create a bullet; what is a bullet?
+                                //create a bullet object at my position with my rotation
+                                Instantiate(bullet, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+                            
+                            break;
+                        case 2:
+
+                                //create a bullet object at my position with my rotation
+                                Instantiate(bullet, transform.position + new Vector3(-0.5f, 1, 0), Quaternion.identity);
+                                Instantiate(bullet, transform.position + new Vector3(0.5f, 1, 0), Quaternion.identity);
+                            
+                            break;
+                        case 3:
+
+                            
+                                //create a bullet object at my position with my rotation
+                                Instantiate(bullet, transform.position + new Vector3(-0.5f, 1, 0), Quaternion.Euler(0, 0, 30f));
+                                Instantiate(bullet, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+                                Instantiate(bullet, transform.position + new Vector3(0.5f, 1, 0), Quaternion.Euler(0, 0, -30f));
+
+                            break;
+                    }
+             }   
+                
+
+
     }
 
     public void LoseALife()
@@ -112,33 +140,45 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator ShootingPowerDown()
+    {
+        yield return new WaitForSeconds(4f);
+        shooting = 1;
+        gameManager.UpdatePowerupText("");
+    }
     IEnumerator DisableShield()
     {
         yield return new WaitForSeconds(3f);
         shield.gameObject.SetActive(false);
         gameManager.UpdatePowerupText("");
+        
     }
 
     private void OnTriggerEnter(Collider hitRate)
     {
+
         if (hitRate.tag == "Powerup")
         {
-
-
+            gameManager.PlayPowerUp();
             int powerupType = Random.Range(1, 4);//int 1,2,3,
-            switch(powerupType)
+
+            switch (powerupType)
             {
+
 
                 case 1:
                     //double shot
+                    shooting = 2;
                     gameManager.UpdatePowerupText("Picked up Double Shot!");
+                    StartCoroutine(ShootingPowerDown());
                     break;
 
                 case 2:
                     //triple shot
+                    shooting = 3;
                     gameManager.UpdatePowerupText("Picked up Triple Shot!");
+                    StartCoroutine(ShootingPowerDown());
                     break;
-
                 case 3:
                     //shield
                     gameManager.UpdatePowerupText("Picked up Shield!");
@@ -147,12 +187,8 @@ public class Player : MonoBehaviour
                     StartCoroutine(DisableShield());
                     break;
 
-
             }
-
-
             Destroy(hitRate.gameObject);
- 
         }
     }
  
